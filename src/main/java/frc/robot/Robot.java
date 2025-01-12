@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // For the PWM motor controllers
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -29,10 +32,10 @@ public class Robot extends TimedRobot {
   Timer timer = new Timer();
 
   // Add the motors to the robot
-  PWMSparkMax frontRightMotor = new PWMSparkMax(1);
-  PWMSparkMax frontLeftMotor = new PWMSparkMax(0);
-  PWMSparkMax backRightMotor = new PWMSparkMax(2);
-  PWMSparkMax backLeftMotor = new PWMSparkMax(3);
+  PWMVictorSPX frontRightMotor = new PWMVictorSPX(1);
+  PWMVictorSPX frontLeftMotor = new PWMVictorSPX(0);
+  PWMVictorSPX backRightMotor = new PWMVictorSPX(2);
+  PWMVictorSPX backLeftMotor = new PWMVictorSPX(3);
 
 
   /**
@@ -71,22 +74,29 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    if (!timer.isRunning())
+      timer.start();
+    else
+      timer.reset();
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    double speed = 1f;
     switch (m_autoSelected) {
       case backTestingAuto:
       System.out.println("Running back testing");
-        if (timer.hasElapsed(2)) {
+        if (timer.get() < 5)
+        {
+          System.out.println("Moving...");
           // Run the motors forwards
           // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
 
           // For now, I will roll my own
           // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
-          backRightMotor.set(0.1);
-          backLeftMotor.set(0.1);
+          backRightMotor.set(speed);
+          backLeftMotor.set(speed);
 
         }
         backRightMotor.set(0);
@@ -95,14 +105,15 @@ public class Robot extends TimedRobot {
         break;
       case frontTestingAuto:
         System.out.println("Running front testing");
-        if (timer.hasElapsed(2)) {
+        if (timer.get() < 5) {
+          System.out.println("Moving... " + timer.get());
           // Run the motors forwards
           // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
 
           // For now, I will roll my own
           // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
-          frontRightMotor.set(0.1);
-          frontLeftMotor.set(0.1);
+          frontRightMotor.set(speed);
+          frontLeftMotor.set(speed);
 
         }
         frontRightMotor.set(0);
