@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
     // Invert the the motors so they move in the correct direction when "positive" voltate is applied.
     frontRightMotor.setInverted(true);
-    backLeftMotor.setInverted(true);
+    backRightMotor.setInverted(true);
   }
 
   /**
@@ -89,11 +89,11 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    double speed = 0.5f;
+    double speed = 0.75;
     switch (m_autoSelected) {
       case backTestingAuto:
         System.out.println("BR: " + backRightMotor.getVoltage());
-        System.out.println("BL: " + backLeftMotor.getVoltage());
+        System.out.println("BL: " + backLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5)
         {
           // Run the motors forwards
@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
         break;
       case frontTestingAuto:
         System.out.println("FR: " + frontRightMotor.getVoltage());
-        System.out.println("FL: " + frontLeftMotor.getVoltage());
+        System.out.println("FL: " + frontLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5) {
           frontRightMotor.set(speed);
           frontLeftMotor.set(speed);
@@ -119,6 +119,10 @@ public class Robot extends TimedRobot {
         frontLeftMotor.set(0);
         break;
       case doubleTestingAuto:
+        System.out.println("FR: " + frontRightMotor.getVoltage());
+        System.out.println("FL: " + frontLeftMotor.getVoltage());
+        System.out.println("BR: " + backRightMotor.getVoltage());
+        System.out.println("BL: " + backLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5) {
           frontLeftMotor.set(speed); // Should be inverted relative to FR
           frontRightMotor.set(speed);
