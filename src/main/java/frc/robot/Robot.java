@@ -47,6 +47,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption(backTestingAuto, backTestingAuto);
     m_chooser.addOption(doNothingAuto, doNothingAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    // Invert the right side so it moves in the correct direction when "positive" voltate is applied.
+    frontRightMotor.setInverted(true);
   }
 
   /**
@@ -86,10 +89,10 @@ public class Robot extends TimedRobot {
     double speed = 1f;
     switch (m_autoSelected) {
       case backTestingAuto:
-      System.out.println("Running back testing");
+        System.out.println("BR: " + backRightMotor.getVoltage());
+        System.out.println("BL: " + backLeftMotor.getVoltage());
         if (timer.get() < 5)
         {
-          System.out.println("Moving...");
           // Run the motors forwards
           // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
 
@@ -104,9 +107,9 @@ public class Robot extends TimedRobot {
 
         break;
       case frontTestingAuto:
-        System.out.println("Running front testing");
+        System.out.println("FR: " + frontRightMotor.getVoltage());
+        System.out.println("FL: " + frontLeftMotor.getVoltage());
         if (timer.get() < 5) {
-          System.out.println("Moving... " + timer.get());
           // Run the motors forwards
           // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
 
