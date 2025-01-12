@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 public class Robot extends TimedRobot {
   private static final String frontTestingAuto = "Front Motors Testing";
   private static final String backTestingAuto = "Back Motors Testing";
+  private static final String doubleTestingAuto = "Double Motors Testing";
   private static final String doNothingAuto = "Empty Auto";
 
   private String m_autoSelected;
@@ -46,10 +47,12 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption(frontTestingAuto, frontTestingAuto);
     m_chooser.addOption(backTestingAuto, backTestingAuto);
     m_chooser.addOption(doNothingAuto, doNothingAuto);
+    m_chooser.addOption(doubleTestingAuto, doubleTestingAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    // Invert the right side so it moves in the correct direction when "positive" voltate is applied.
+    // Invert the the motors so they move in the correct direction when "positive" voltate is applied.
     frontRightMotor.setInverted(true);
+    backLeftMotor.setInverted(true);
   }
 
   /**
@@ -86,7 +89,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    double speed = 1f;
+    double speed = 0.5f;
     switch (m_autoSelected) {
       case backTestingAuto:
         System.out.println("BR: " + backRightMotor.getVoltage());
@@ -100,7 +103,6 @@ public class Robot extends TimedRobot {
           // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
           backRightMotor.set(speed);
           backLeftMotor.set(speed);
-
         }
         backRightMotor.set(0);
         backLeftMotor.set(0);
@@ -110,17 +112,19 @@ public class Robot extends TimedRobot {
         System.out.println("FR: " + frontRightMotor.getVoltage());
         System.out.println("FL: " + frontLeftMotor.getVoltage());
         if (timer.get() < 5) {
-          // Run the motors forwards
-          // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
-
-          // For now, I will roll my own
-          // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
           frontRightMotor.set(speed);
           frontLeftMotor.set(speed);
-
         }
         frontRightMotor.set(0);
         frontLeftMotor.set(0);
+        break;
+      case doubleTestingAuto:
+        if (timer.get() < 5) {
+          frontLeftMotor.set(speed); // Should be inverted relative to FR
+          frontRightMotor.set(speed);
+          backLeftMotor.set(speed); // Should be inverted relative to BR. 
+          backRightMotor.set(speed);
+        }
         break;
       case doNothingAuto:
         System.out.println("Doing Nothing Auto");
