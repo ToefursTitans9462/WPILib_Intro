@@ -6,13 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// For the PWM motor controllers
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonFX;
-import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
-import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -20,40 +13,23 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  private static final String frontTestingAuto = "Front Motors Testing";
-  private static final String backTestingAuto = "Back Motors Testing";
-  private static final String doubleTestingAuto = "Double Motors Testing";
-  private static final String doNothingAuto = "Empty Auto";
 
   private String m_autoSelected;
   // This is for the SmartDashboard. It allows for a list of options to be presented to the user when the program is running.
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   // Timer so the robot knows how long it has been working on something
   Timer timer = new Timer();
 
-  // Add the motors to the robot
-  PWMVictorSPX frontRightMotor = new PWMVictorSPX(1);
-  PWMVictorSPX frontLeftMotor = new PWMVictorSPX(0);
-  PWMVictorSPX backRightMotor = new PWMVictorSPX(2);
-  PWMVictorSPX backLeftMotor = new PWMVictorSPX(3);
-
+  // Add motors, input, and output things to the robot
+  IOdevices io = new IOdevices();
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   public Robot() {
-    m_chooser.setDefaultOption(frontTestingAuto, frontTestingAuto);
-    m_chooser.addOption(backTestingAuto, backTestingAuto);
-    m_chooser.addOption(doNothingAuto, doNothingAuto);
-    m_chooser.addOption(doubleTestingAuto, doubleTestingAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
-    // Invert the the motors so they move in the correct direction when "positive" voltate is applied.
-    frontRightMotor.setInverted(true);
-    backRightMotor.setInverted(true);
-  }
+    
+     }
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -77,7 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
+    m_autoSelected = io.autoSelector.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
     if (!timer.isRunning())
@@ -91,9 +67,9 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double speed = 0.75;
     switch (m_autoSelected) {
-      case backTestingAuto:
-        System.out.println("BR: " + backRightMotor.getVoltage());
-        System.out.println("BL: " + backLeftMotor.getVoltage() + '\n');
+      case Autos.backTestingAuto:
+        System.out.println("BR: " + io.backRightMotor.getVoltage());
+        System.out.println("BL: " + io.backLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5)
         {
           // Run the motors forwards
@@ -101,36 +77,36 @@ public class Robot extends TimedRobot {
 
           // For now, I will roll my own
           // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
-          backRightMotor.set(speed);
-          backLeftMotor.set(speed);
+          io.backRightMotor.set(speed);
+          io.backLeftMotor.set(speed);
         }
-        backRightMotor.set(0);
-        backLeftMotor.set(0);
+        io.backRightMotor.set(0);
+        io.backLeftMotor.set(0);
 
         break;
-      case frontTestingAuto:
-        System.out.println("FR: " + frontRightMotor.getVoltage());
-        System.out.println("FL: " + frontLeftMotor.getVoltage() + '\n');
+      case Autos.frontTestingAuto:
+        System.out.println("FR: " + io.frontRightMotor.getVoltage());
+        System.out.println("FL: " + io.frontLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5) {
-          frontRightMotor.set(speed);
-          frontLeftMotor.set(speed);
+          io.frontRightMotor.set(speed);
+          io.frontLeftMotor.set(speed);
         }
-        frontRightMotor.set(0);
-        frontLeftMotor.set(0);
+        io.frontRightMotor.set(0);
+        io.frontLeftMotor.set(0);
         break;
-      case doubleTestingAuto:
-        System.out.println("FR: " + frontRightMotor.getVoltage());
-        System.out.println("FL: " + frontLeftMotor.getVoltage());
-        System.out.println("BR: " + backRightMotor.getVoltage());
-        System.out.println("BL: " + backLeftMotor.getVoltage() + '\n');
+      case Autos.doubleTestingAuto:
+        System.out.println("FR: " + io.frontRightMotor.getVoltage());
+        System.out.println("FL: " + io.frontLeftMotor.getVoltage());
+        System.out.println("BR: " + io.backRightMotor.getVoltage());
+        System.out.println("BL: " + io.backLeftMotor.getVoltage() + '\n');
         if (timer.get() < 5) {
-          frontLeftMotor.set(speed); // Should be inverted relative to FR
-          frontRightMotor.set(speed);
-          backLeftMotor.set(speed); // Should be inverted relative to BR. 
-          backRightMotor.set(speed);
+          io.frontLeftMotor.set(speed); // Should be inverted relative to FR
+          io.frontRightMotor.set(speed);
+          io.backLeftMotor.set(speed); // Should be inverted relative to BR. 
+          io.backRightMotor.set(speed);
         }
         break;
-      case doNothingAuto:
+      case Autos.doNothingAuto:
         System.out.println("Doing Nothing Auto");
       default:
         break;
