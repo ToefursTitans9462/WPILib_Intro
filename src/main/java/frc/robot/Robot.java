@@ -69,24 +69,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // TODO: Better Auto selection
     switch (m_autoSelected) {
-      case Autos.backTesting:
-        break;
-      case Autos.frontTesting:
-        break;
       case Autos.doubleTesting:
-        io.drive.arcadeDrive(io.controller1.getLeftY(), io.controller1.getRightX());
         System.out.println(
           "\nFL: " + io.frontLeftMotor.getVoltage() + 
           "\nFR: " + io.frontRightMotor.getVoltage() +
           "\nBL: " + io.backLeftMotor.getVoltage() +
           "\nBR: " + io.backRightMotor.getVoltage() + '\n');
         break;
-      case Autos.controllerTesting:
-        System.out.println(
-          "\nLeftY:  " + io.controller1.getLeftY() +
-          "\nLeftX:  " + io.controller1.getLeftX() +
-          "\nRightY: " + io.controller1.getRightY() + 
-          "\nRightX: " + io.controller1.getRightX() + '\n');
       default:
         break;
     }
@@ -100,7 +89,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    System.out.println(
+      "\nLeftY:  " + io.controller1.getLeftY() +
+      "\nLeftX:  " + io.controller1.getLeftX() +
+      "\nRightY: " + io.controller1.getRightY() + 
+      "\nRightX: " + io.controller1.getRightX() + '\n');
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override

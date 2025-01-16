@@ -13,10 +13,10 @@ public class IOdevices {
   IOdevices() {
 
     // Add the autos to the chooser
-    autoSelector.setDefaultOption(Autos.frontTesting, Autos.frontTesting);
-    autoSelector.addOption(Autos.backTesting, Autos.backTesting);
-    autoSelector.addOption(Autos.controllerTesting, Autos.controllerTesting);
-    autoSelector.addOption(Autos.doubleTesting, Autos.doubleTesting);
+    // autoSelector.setDefaultOption(Autos.frontTesting, Autos.frontTesting);
+    // autoSelector.addOption(Autos.backTesting, Autos.backTesting);
+    // autoSelector.addOption(Autos.controllerTesting, Autos.controllerTesting);
+    // autoSelector.addOption(Autos.doubleTesting, Autos.doubleTesting);
     SmartDashboard.putData("Auto choices", autoSelector);
 
 
@@ -29,6 +29,7 @@ public class IOdevices {
     frontRightMotor.addFollower(backRightMotor);
 
     
+    drive.arcadeDrive(controller1.getLeftY(), controller1.getRightX());
   }
   
   // Drive motors
