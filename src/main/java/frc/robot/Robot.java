@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -28,8 +29,9 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   public Robot() {
+
     
-     }
+  }
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -65,49 +67,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    double speed = 0.75;
+    // TODO: Better Auto selection
     switch (m_autoSelected) {
       case Autos.backTestingAuto:
-        System.out.println("BR: " + io.backRightMotor.getVoltage());
-        System.out.println("BL: " + io.backLeftMotor.getVoltage() + '\n');
-        if (timer.get() < 5)
-        {
-          // Run the motors forwards
-          // Using WPILib drivetrain classes: https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html
-
-          // For now, I will roll my own
-          // WPILib has some classes for working with PWM motor controllers. These work out of the box, but calibrating them is still recommended.
-          io.backRightMotor.set(speed);
-          io.backLeftMotor.set(speed);
-        }
-        io.backRightMotor.set(0);
-        io.backLeftMotor.set(0);
-
         break;
       case Autos.frontTestingAuto:
-        System.out.println("FR: " + io.frontRightMotor.getVoltage());
-        System.out.println("FL: " + io.frontLeftMotor.getVoltage() + '\n');
-        if (timer.get() < 5) {
-          io.frontRightMotor.set(speed);
-          io.frontLeftMotor.set(speed);
-        }
-        io.frontRightMotor.set(0);
-        io.frontLeftMotor.set(0);
         break;
       case Autos.doubleTestingAuto:
-        System.out.println("FR: " + io.frontRightMotor.getVoltage());
-        System.out.println("FL: " + io.frontLeftMotor.getVoltage());
-        System.out.println("BR: " + io.backRightMotor.getVoltage());
-        System.out.println("BL: " + io.backLeftMotor.getVoltage() + '\n');
-        if (timer.get() < 5) {
-          io.frontLeftMotor.set(speed); // Should be inverted relative to FR
-          io.frontRightMotor.set(speed);
-          io.backLeftMotor.set(speed); // Should be inverted relative to BR. 
-          io.backRightMotor.set(speed);
-        }
+        io.drive.arcadeDrive(io.controller1.getLeftY(), io.controller1.getRightX());
+        System.out.println("FL: " + io.frontLeftMotor.getVoltage() + '\n' +
+               "FR: " + io.frontRightMotor.getVoltage() + '\n' +
+               "BL: " + io.backLeftMotor.getVoltage() + '\n' +
+               "BR: " + io.backRightMotor.getVoltage() + "\n\n");
         break;
       case Autos.doNothingAuto:
-        System.out.println("Doing Nothing Auto");
       default:
         break;
     }
