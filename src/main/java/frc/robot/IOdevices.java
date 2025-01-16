@@ -13,10 +13,10 @@ public class IOdevices {
   IOdevices() {
 
     // Add the autos to the chooser
-    autoSelector.setDefaultOption(Autos.frontTestingAuto, Autos.frontTestingAuto);
-    autoSelector.addOption(Autos.backTestingAuto, Autos.backTestingAuto);
-    autoSelector.addOption(Autos.doNothingAuto, Autos.doNothingAuto);
-    autoSelector.addOption(Autos.doubleTestingAuto, Autos.doubleTestingAuto);
+    autoSelector.setDefaultOption(Autos.frontTesting, Autos.frontTesting);
+    autoSelector.addOption(Autos.backTesting, Autos.backTesting);
+    autoSelector.addOption(Autos.controllerTesting, Autos.controllerTesting);
+    autoSelector.addOption(Autos.doubleTesting, Autos.doubleTesting);
     SmartDashboard.putData("Auto choices", autoSelector);
 
 
@@ -32,16 +32,16 @@ public class IOdevices {
   }
   
   // Drive motors
-  public static final PWMVictorSPX frontRightMotor = new PWMVictorSPX(1);
-  public static final PWMVictorSPX frontLeftMotor = new PWMVictorSPX(0);
-  public static final PWMVictorSPX backRightMotor = new PWMVictorSPX(2);
-  public static final PWMVictorSPX backLeftMotor = new PWMVictorSPX(3);
+  public final PWMVictorSPX frontRightMotor = new PWMVictorSPX(1);
+  public final PWMVictorSPX frontLeftMotor = new PWMVictorSPX(0);
+  public final PWMVictorSPX backRightMotor = new PWMVictorSPX(2);
+  public final PWMVictorSPX backLeftMotor = new PWMVictorSPX(3);
 
   // Human Input
-  public static final XboxController controller1 = new XboxController(0);
+  public final XboxController controller1 = new XboxController(0);
 
-  public static final SendableChooser<String> autoSelector = new SendableChooser<>();
+  public final SendableChooser<String> autoSelector = new SendableChooser<>();
   
-  public static final DifferentialDrive drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+  public final DifferentialDrive drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
 }

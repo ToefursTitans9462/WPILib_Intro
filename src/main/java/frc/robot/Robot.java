@@ -69,18 +69,24 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // TODO: Better Auto selection
     switch (m_autoSelected) {
-      case Autos.backTestingAuto:
+      case Autos.backTesting:
         break;
-      case Autos.frontTestingAuto:
+      case Autos.frontTesting:
         break;
-      case Autos.doubleTestingAuto:
+      case Autos.doubleTesting:
         io.drive.arcadeDrive(io.controller1.getLeftY(), io.controller1.getRightX());
-        System.out.println("FL: " + io.frontLeftMotor.getVoltage() + '\n' +
-               "FR: " + io.frontRightMotor.getVoltage() + '\n' +
-               "BL: " + io.backLeftMotor.getVoltage() + '\n' +
-               "BR: " + io.backRightMotor.getVoltage() + "\n\n");
+        System.out.println(
+          "\nFL: " + io.frontLeftMotor.getVoltage() + 
+          "\nFR: " + io.frontRightMotor.getVoltage() +
+          "\nBL: " + io.backLeftMotor.getVoltage() +
+          "\nBR: " + io.backRightMotor.getVoltage() + '\n');
         break;
-      case Autos.doNothingAuto:
+      case Autos.controllerTesting:
+        System.out.println(
+          "\nLeftY:  " + io.controller1.getLeftY() +
+          "\nLeftX:  " + io.controller1.getLeftX() +
+          "\nRightY: " + io.controller1.getRightY() + 
+          "\nRightX: " + io.controller1.getRightX() + '\n');
       default:
         break;
     }
