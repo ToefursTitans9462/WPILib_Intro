@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -41,7 +40,9 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    io.drive.arcadeDrive(io.controller1.getLeftY(), io.controller1.getRightX());
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -90,11 +91,19 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    // FIXME: Apparently the drive is not being updated frequently enough
+    // FIXME: The motors don't even try to move. Controller inputs are being registered though.
     System.out.println(
       "\nLeftY:  " + io.controller1.getLeftY() +
       "\nLeftX:  " + io.controller1.getLeftX() +
       "\nRightY: " + io.controller1.getRightY() + 
       "\nRightX: " + io.controller1.getRightX() + '\n');
+
+    System.out.println(
+      "\nFL: " + io.frontLeftMotor.getVoltage() + 
+      "\nFR: " + io.frontRightMotor.getVoltage() +
+      "\nBL: " + io.backLeftMotor.getVoltage() +
+      "\nBR: " + io.backRightMotor.getVoltage() + '\n');
   }
 
   /** This function is called once when the robot is disabled. */
