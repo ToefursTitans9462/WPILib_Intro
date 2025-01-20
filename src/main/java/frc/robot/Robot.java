@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -14,22 +15,15 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Robot extends TimedRobot {
 
-  private String m_autoSelected;
-  // This is for the SmartDashboard. It allows for a list of options to be presented to the user when the program is running.
-
-  // Timer so the robot knows how long it has been working on something
-  Timer timer = new Timer();
-
   // Add motors, input, and output things to the robot
-  IOdevices io = new IOdevices();
+  private RobotContainer m_state;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   public Robot() {
-
-    
+    m_state = new RobotContainer();
   }
 
   /**
@@ -41,92 +35,37 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    io.drive.arcadeDrive(io.controller1.getLeftY(), io.controller1.getRightX());
+    // Run the command scheduler every control cycle
+    CommandScheduler.getInstance().run();
   }
-
-  /**
-   * This autonomous (along with the chooser code above) shows how to select between different
-   * autonomous modes using the dashboard. The sendable chooser code works with the Java
-   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the chooser code and
-   * uncomment the getString line to get the auto name from the text box below the Gyro
-   *
-   * <p>You can add additional auto modes by adding additional comparisons to the switch structure
-   * below with additional strings. If using the SendableChooser make sure to add them to the
-   * chooser code above as well.
-   */
+  
   @Override
-  public void autonomousInit() {
-    m_autoSelected = io.autoSelector.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
-    if (!timer.isRunning())
-      timer.start();
-    else
-      timer.reset();
-  }
+  public void autonomousInit() {}
 
-  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    // TODO: Better Auto selection
-    switch (m_autoSelected) {
-      case Autos.doubleTesting:
-        System.out.println(
-          "\nFL: " + io.frontLeftMotor.getVoltage() + 
-          "\nFR: " + io.frontRightMotor.getVoltage() +
-          "\nBL: " + io.backLeftMotor.getVoltage() +
-          "\nBR: " + io.backRightMotor.getVoltage() + '\n');
-        break;
-      default:
-        break;
-    }
-  }
+  public void autonomousPeriodic() {}
 
-  /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {
-    System.out.println("TeleopInit");
-  }
+  public void teleopInit() {}
 
-  /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    // FIXME: Apparently the drive is not being updated frequently enough
-    // FIXME: The motors don't even try to move. Controller inputs are being registered though.
-    System.out.println(
-      "\nLeftY:  " + io.controller1.getLeftY() +
-      "\nLeftX:  " + io.controller1.getLeftX() +
-      "\nRightY: " + io.controller1.getRightY() + 
-      "\nRightX: " + io.controller1.getRightX() + '\n');
+  public void teleopPeriodic() {}
 
-    System.out.println(
-      "\nFL: " + io.frontLeftMotor.getVoltage() + 
-      "\nFR: " + io.frontRightMotor.getVoltage() +
-      "\nBL: " + io.backLeftMotor.getVoltage() +
-      "\nBR: " + io.backRightMotor.getVoltage() + '\n');
-  }
-
-  /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
 
-  /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {}
 
-  /** This function is called once when test mode is enabled. */
   @Override
   public void testInit() {}
 
-  /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
 
-  /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {}
 
-  /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
 }
