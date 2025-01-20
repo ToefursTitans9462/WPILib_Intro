@@ -42,8 +42,7 @@ public class RobotContainer {
 
 
     // Invert the the motors so they move in the correct direction when "positive" voltate is applied.
-    rightMotor.setInverted(true);
-    backRightMotor.setInverted(true);
+    leftMotor.setInverted(true);
 
     // Group the motors on each side
     leftMotor.addFollower(backLeftMotor);
