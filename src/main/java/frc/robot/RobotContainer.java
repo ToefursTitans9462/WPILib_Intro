@@ -4,11 +4,28 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.commands.TeleopDrive;
 
-public class RobotContainer {
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.TeleopDriveCommand;
+
+public final class RobotContainer {
+
+  /** The Singleton Instance. */
+  private static RobotContainer m_instance;
+
+  /**
+   * Returns the Scheduler instance. If no instance exists, will be created.
+   *
+   * @return the instance
+   */
+  public static synchronized RobotContainer getInstance() {
+    if (m_instance == null) {
+      m_instance = new RobotContainer();
+    }
+    return m_instance;
+  }
   
+
   // Drive motors
   private final PWMVictorSPX rightMotor = new PWMVictorSPX(1);
   private final PWMVictorSPX leftMotor = new PWMVictorSPX(0);
@@ -20,9 +37,6 @@ public class RobotContainer {
   private final SendableChooser<String> autoSelector = new SendableChooser<>();
 
   // Input shorthand
-  // FIXME
-  // private double translationInput = controller1.getLeftY();
-  // private double rotationInput = controller1.getRightX();
 
   // Subsystems
   private final Drivetrain m_drivetrain = new Drivetrain(leftMotor, rightMotor);
@@ -30,7 +44,7 @@ public class RobotContainer {
   // Robot State
   private String m_currentAutoProgram = "default";
 
-  RobotContainer() {
+  private RobotContainer() {
 
     // This is for the SmartDashboard. It allows for a list of options to be presented to the user when the program is running.
     // Add the autos to the chooser
@@ -51,19 +65,10 @@ public class RobotContainer {
     ConfigureKeybindings();
 
     // Implementing the command-based architecture.
-    m_drivetrain.setDefaultCommand(new TeleopDrive(m_drivetrain, () -> controller1.getLeftY(), () -> controller1.getRightX()));
+    m_drivetrain.setDefaultCommand(new TeleopDriveCommand(m_drivetrain, ()->controller1.getLeftY(), ()->controller1.getRightX()));
   }
 
   void ConfigureKeybindings() {
 
   }
-
-  String getAuto() {
-    return m_currentAutoProgram;
-  }
-
-  void setAuto(String newAuto) {
-    m_currentAutoProgram = newAuto;
-  }
-
 }

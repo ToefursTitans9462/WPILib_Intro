@@ -21,7 +21,6 @@ public class Drivetrain extends SubsystemBase {
 
   // This is the main drive function.
   public void drive(double speed, double turn) {
-    // For the speed to not be negative, each motor's inversion status must be changed in RobotContainer.java
-    m_DifferentialDrive.curvatureDrive(-speed, turn, true);
+    m_DifferentialDrive.curvatureDrive(speed, turn, true);
   }
 }

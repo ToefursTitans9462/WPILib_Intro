@@ -4,7 +4,7 @@ import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import java.util.function.DoubleSupplier;
 
-public class TeleopDrive extends Command {
+public class TeleopDriveCommand extends Command {
   // Fields
   private Drivetrain m_drivetrain;
   // Inputs. These allow for lambdas to be passed into the constructor
@@ -12,7 +12,8 @@ public class TeleopDrive extends Command {
   private DoubleSupplier m_turn;
 
 
-  public TeleopDrive (Drivetrain drivetrain, DoubleSupplier speed, DoubleSupplier turn) {
+  // This is supposed to be used as a command
+  public TeleopDriveCommand (Drivetrain drivetrain, DoubleSupplier speed, DoubleSupplier turn) {
     m_drivetrain = drivetrain;
     // Add this drivetrain as a requirement for the command
     addRequirements(drivetrain);
