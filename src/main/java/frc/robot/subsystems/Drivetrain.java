@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.RobotConstants.Drivetrain.*;
+
 // This is a differential drivetrain.
 public class Drivetrain extends SubsystemBase {
 
@@ -21,6 +23,7 @@ public class Drivetrain extends SubsystemBase {
 
   // This is the main drive function.
   public void drive(double speed, double turn) {
-    m_DifferentialDrive.curvatureDrive(speed, turn, true);
+    // TODO: Adjust for the Ronstant's max speed things. There is absolute speed and a multiplier. The one that results in the lowest speed should be used.
+    m_DifferentialDrive.curvatureDrive(speed * MAX_MOTOR_VOLTAGE, turn * TURN_SENSITIVITY, true);
   }
 }
