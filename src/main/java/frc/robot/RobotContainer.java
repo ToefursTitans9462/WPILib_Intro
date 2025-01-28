@@ -15,7 +15,7 @@ public final class RobotContainer {
   private static RobotContainer m_instance;
 
   /**
-   * Returns the Scheduler instance. If no instance exists, will be created.
+   * Returns the Scheduler instance. If no instance exists, it will be created.
    *
    * @return the instance
    */
@@ -43,8 +43,10 @@ public final class RobotContainer {
   private final Drivetrain m_drivetrain = new Drivetrain(m_leftMotor, m_rightMotor);
 
   // Robot State
-  private String m_currentAutoProgram = "default";
-  private BuildMode m_currentBuildMode = BuildMode.TESTING;
+  public String m_currentAutoProgram = "default";
+  public static BuildMode m_currentBuildMode = BuildMode.TESTING;
+
+
 
   private RobotContainer() {
 
